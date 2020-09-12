@@ -1,29 +1,42 @@
-import { Component } from '@angular/core';
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { User } from '../models/user.interface';
+import { Component, OnInit } from '@angular/core'
+import {AuthService} from "../../services/auth.service";
+import {AngularFireAuth} from "@angular/fire/auth";
+import {auth} from "firebase";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
-  
-public user$: Observable<User> = this.authSvc.afAuth.user;
+export class NavbarComponent implements OnInit {
 
-  constructor(private authSvc: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private afsAuth: AngularFireAuth, private router: Router) { }
+  public app_name: string='Casa Abierta';
+  public isLogged: boolean=false
+  public  isAdmin: any = null;
+  public userUid: string = null;
 
-  
-
-  async onLogout(){
-try{
-   await this.authSvc.logout();
-   this.router.navigateByUrl('/login');
-}catch (error){
-  console.log(error);
-}
+  ngOnInit() {
+    this.getCurrentUser();
+   // this.getAdminUser();
   }
 
+  getCurrentUser() {
+    this.authService.isAuth().subscribe(auth => {
+      if (auth) {
+        console.log('user logged');
+        this.isLogged = true;
+      } else {
+        console.log('NOT user logged');
+        this.isLogged = false;
+      }
+    });
+  }
+
+
+  onLogout(){
+    this.authService.onLogOut();
+    this.router.navigate(['authentication/login']);
+  }
 }

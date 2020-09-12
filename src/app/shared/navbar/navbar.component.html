@@ -1,37 +1,17 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="\">AppLearn</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<mat-toolbar class="mat-elevation-z6 d-block" color="primary">
+  <span fxFlex></span>
+  <a mat-button class="nav-link " routerLink="/">AppLearn</a>
+ 
   
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a class="nav-link" routerLink="/">Home</a>
-        </li>       
-      </ul>
-      <ul class="navbar-nav mx-auto" *ngIf="user$ | async as user; else login" >
-       
-          <li class="nav-item active" *ngIf="user">
-            <a href="#" class="nav-link" (click)="onLogout()">Logout</a>
-          </li>         
-          <li class="nav-item">
-            <a class="nav-link"> {{ user?.email }}</a>
-          </li>
-        </ul>
-        <ng-template #login>
-          <ul class="navbar-nav mx-auto ">
-          <li class="nav-item ">
-            <a class="nav-link text-align left" routerLink="/login">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/register">Register</a>
-          </li>
-          
-          </ul>
-          
-        </ng-template>
-        
-    </div>
-   
-  </nav>
+  <a mat-button class="nav-link "  routerLink="authentication/register" *ngIf="!isLogged"  >Registro</a>
+  <a mat-button class="nav-link " routerLink="authentication/login" *ngIf="!isLogged">Inicio de Sesión</a>
+  <a mat-button class="nav-link " routerLink="/" *ngIf="isLogged">Inicio</a>
+  <a mat-button class="nav-link " routerLink="/students" *ngIf="isLogged">Alumnos</a>
+  <a mat-button class="nav-link " routerLink="/courses" *ngIf="isLogged">Cursos</a>
+  <a mat-button class="nav-link " routerLink="/teachers" *ngIf="isLogged">Docentes</a>
+  <a mat-button class="nav-link " routerLink="/settings" *ngIf="isLogged">Ajustes</a>
+  <a mat-button class="nav-link " routerLink="/help" *ngIf="isLogged">Ayuda</a>
+
+  <a mat-button  class="toRight" (click)="onLogout()" *ngIf="isLogged">Salir</a>
+
+</mat-toolbar>

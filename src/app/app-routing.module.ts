@@ -1,59 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { SendEmailComponent } from './auth/send-email/send-email.component';
-import { CanEditGuard } from './auth/guards/can-edit.guards';
-import { CanSuscriptorGuard } from './auth/guards/can-suscriptor.guards';
-import { CanAdminGuard } from './auth/guards/can-admin.guards';
+import { AdminGuard } from './guards/admin.guards';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/authentication/login/login.component';
+import { RegisterComponent } from './components/authentication/register/register.component';
+import { TeachersHomeComponent } from './components/teachers/teachers-home/teachers-home.component';
+import { StudentsHomeComponent } from './components/students/students-home/students-home.component';
+import { SettingsHomeComponent } from './components/settings/settings-home/settings-home.component';
+import { HelpHomeComponent } from './components/help/help-home/help-home.component';
+import { CoursesHomeComponent } from './components/courses/courses-home/courses-home.component';
 
 
 const routes: Routes = [
-  {
-    path: '',
-    redirectTo: '/home',
-    pathMatch: 'full',
-  },
-  {
-     path: 'home',
-     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
-     }, 
-     { 
-     path: 'login', 
-     loadChildren: () => 
-     import('./auth/login/login.module').then((m) => m.LoginModule), 
-    }, 
-    { 
-     path: 'register', 
-     loadChildren: () => 
-     import('./auth/register/register.module').then((m) => m.RegisterModule), 
-    },
-    {
-      path:'verification-email',
-      component: SendEmailComponent
-    },
-  { 
-    path: 'forgot-password',
-   loadChildren: () => 
-   import('./auth/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule) 
-  },
-  { 
-    path: 'admin',
-   loadChildren: () => 
-   import('./admin/admin.module').then(m => m.AdminModule),
-   canActivate: [CanAdminGuard] 
-  },
-  { 
-    path: 'editor', 
-    loadChildren: () => 
-    import('./editor/editor.module').then(m => m.EditorModule),
-    canActivate: [CanEditGuard]
-  },
-  { 
-    path: 'suscriptor', 
-    loadChildren: () => 
-    import('./suscriptor/suscriptor.module').then(m => m.SuscriptorModule), 
-    canActivate: [CanSuscriptorGuard]
-  }
-  ];
+  { path: '', component: HomeComponent},
+  { path: 'authentication/login', component: LoginComponent },
+  { path: 'authentication/register', component: RegisterComponent },
+  { path: 'teachers', component: TeachersHomeComponent, canActivate: [AdminGuard]  },
+  { path: 'students', component: StudentsHomeComponent, canActivate: [AdminGuard]  },
+  { path: 'courses', component: CoursesHomeComponent, canActivate: [AdminGuard]  },
+  { path: 'settings', component: SettingsHomeComponent, canActivate: [AdminGuard]  },
+  { path: 'help', component: HelpHomeComponent, canActivate: [AdminGuard]  },
+
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
